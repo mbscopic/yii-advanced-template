@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="companies-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 1]) ?>
 
@@ -18,6 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'address')->textarea(['rows' => 1]) ?>
 
+    <?= $form->field($model, 'file')->fileInput() ?>
 
     <?= $form->field($model, 'company_email')->textarea(['rows' => 1]) ?>
 

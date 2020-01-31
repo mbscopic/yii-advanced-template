@@ -33,8 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name:ntext',
             'address:ntext',
             'created_date',
-            'id_company',
-            'new_column',
+            'company.name',
         ],
     ]) ?>
 

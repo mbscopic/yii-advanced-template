@@ -12,9 +12,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_branch')->textInput() ?>
+    <?= $form->field($model, 'id_branch')->dropDownList(
+            \yii\helpers\ArrayHelper::map(\backend\models\Branches::find()->all(), 'id', 'name'),
+            ['promt' => 'Select Branch']
+    ) ?>
 
-    <?= $form->field($model, 'id_company')->textInput() ?>
+    <?= $form->field($model, 'id_company')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\backend\models\Companies::find()->all(), 'id', 'name'),
+        ['promt' => 'Select Company']
+    ) ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 1]) ?>
 

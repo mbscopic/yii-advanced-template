@@ -16,9 +16,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'address')->textarea(['rows' => 1]) ?>
 
-    <?= $form->field($model, 'id_company')->textInput() ?>
-
-    <?= $form->field($model, 'new_column')->textInput() ?>
+    <?= $form->field($model, 'id_company')->widget(\kartik\select2\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\backend\models\Companies::find()->all(), 'id', 'name'),
+        'language' => 'en',
+        'options' => ['placeholder' => 'Select a company ...'],
+        'pluginOptions' => ['allowClear' => true],
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

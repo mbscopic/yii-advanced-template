@@ -19,6 +19,7 @@ use Yii;
  */
 class Companies extends \yii\db\ActiveRecord
 {
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -33,8 +34,9 @@ class Companies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'email', 'address', 'company_email'], 'string'],
+            [['name', 'email', 'logo', 'address', 'company_email'], 'string'],
             [['created_date'], 'safe'],
+            [['file'], 'file']
         ];
     }
 
@@ -50,6 +52,7 @@ class Companies extends \yii\db\ActiveRecord
             'address' => 'Address',
             'created_date' => 'Created Date',
             'company_email' => 'Company Email',
+            'file' => 'Logo'
         ];
     }
 
