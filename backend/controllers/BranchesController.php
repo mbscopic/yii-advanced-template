@@ -6,6 +6,7 @@ use Yii;
 use backend\models\Branches;
 use backend\models\BranchesSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -58,23 +59,26 @@ class BranchesController extends Controller
     }
 
     /**
-     * Creates a new Branches model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws ForbiddenHttpException
      */
     public function actionCreate()
     {
-        $model = new Branches();
+        if (Yii::$app->user->can('create-branch')) {
+            $model = new Branches();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->created_date = date('Y-m-d H:i:s');
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post())) {
+                $model->created_date = date('Y-m-d H:i:s');
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        } else {
+            throw new ForbiddenHttpException();
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -125,5 +129,18 @@ class BranchesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionLists($id) {
+        $branches_number = Branches::find()->where(['id_company' => $id])->count();
+        $branches = Branches::find()->where(['id_company' => $id])->all();
+
+        if ($branches_number > 0) {
+            foreach ($branches as $branch) {
+                echo "<option value='$branch->id'>$branch->name</option>";
+            }
+        } else {
+            echo "<option></option>";
+        }
     }
 }

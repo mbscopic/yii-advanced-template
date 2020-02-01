@@ -12,14 +12,20 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'id_company')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\backend\models\Companies::find()->all(), 'id', 'name'),
+        [
+            'promt' => 'Select Company',
+            'onchange' => '
+            $.post("index.php?r=branches/lists&id='.'" + $(this).val(), function(data) {
+               $("#departments-id_branch").html(data); 
+            });'
+        ]
+    ) ?>
+
     <?= $form->field($model, 'id_branch')->dropDownList(
             \yii\helpers\ArrayHelper::map(\backend\models\Branches::find()->all(), 'id', 'name'),
             ['promt' => 'Select Branch']
-    ) ?>
-
-    <?= $form->field($model, 'id_company')->dropDownList(
-        \yii\helpers\ArrayHelper::map(\backend\models\Companies::find()->all(), 'id', 'name'),
-        ['promt' => 'Select Company']
     ) ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 1]) ?>

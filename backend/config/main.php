@@ -38,8 +38,16 @@ return [
                 ],
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest']
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false
         ],
         /*
         'urlManager' => [

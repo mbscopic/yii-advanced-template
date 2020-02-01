@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\settings\models\Companies */
+/* @var $model backend\models\Emails */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Companies', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Emails', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="companies-view">
+<div class="emails-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,12 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name:ntext',
-            'email:ntext',
-            'address:ntext',
-            'created_date',
-            'company_email:ntext',
-            'start_date',
+            'receiver_name:ntext',
+            'receiver_email:ntext',
+            'content:ntext',
+            'attachment:ntext',
+            'subject:ntext',
         ],
     ]) ?>
 
