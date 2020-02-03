@@ -35,8 +35,18 @@ class Companies extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'email', 'address', 'company_email'], 'string'],
+            ['start_date', 'checkDate'],
             [['created_date', 'start_date'], 'safe'],
         ];
+    }
+
+    public function checkDate($attribute, $params) {
+        $today = date('Y-m-d');
+        $selected = date($this->start_date);
+
+        if ($selected > $today) {
+            $this->addError($attribute, 'Start date must be smaller');
+        }
     }
 
     /**

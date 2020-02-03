@@ -3,17 +3,17 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Branches;
-use backend\models\BranchesSearch;
+use backend\models\Locations;
+use backend\models\LocationsSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BranchesController implements the CRUD actions for Branches model.
+ * LocationsController implements the CRUD actions for Locations model.
  */
-class BranchesController extends Controller
+class LocationsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -31,12 +31,12 @@ class BranchesController extends Controller
     }
 
     /**
-     * Lists all Branches models.
+     * Lists all Locations models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new BranchesSearch();
+        $searchModel = new LocationsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class BranchesController extends Controller
     }
 
     /**
-     * Displays a single Branches model.
+     * Displays a single Locations model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -59,45 +59,25 @@ class BranchesController extends Controller
     }
 
     /**
-     * @return string|\yii\web\Response
-     * @throws ForbiddenHttpException
+     * Creates a new Locations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Branches();
+        $model = new Locations();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->created_date = date('Y-m-d H:i:s');
-            $model->save();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->renderAjax('create', [
+        return $this->render('create', [
             'model' => $model,
         ]);
     }
 
-    /*public function actionCreate()
-    {
-        if (Yii::$app->user->can('create-branch')) {
-            $model = new Branches();
-
-            if ($model->load(Yii::$app->request->post())) {
-                $model->created_date = date('Y-m-d H:i:s');
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        } else {
-            throw new ForbiddenHttpException();
-        }
-    }*/
-
     /**
-     * Updates an existing Branches model.
+     * Updates an existing Locations model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -117,7 +97,7 @@ class BranchesController extends Controller
     }
 
     /**
-     * Deletes an existing Branches model.
+     * Deletes an existing Locations model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -131,31 +111,23 @@ class BranchesController extends Controller
     }
 
     /**
-     * Finds the Branches model based on its primary key value.
+     * Finds the Locations model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Branches the loaded model
+     * @return Locations the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Branches::findOne($id)) !== null) {
+        if (($model = Locations::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionLists($id) {
-        $branches_number = Branches::find()->where(['id_company' => $id])->count();
-        $branches = Branches::find()->where(['id_company' => $id])->all();
-
-        if ($branches_number > 0) {
-            foreach ($branches as $branch) {
-                echo "<option value='$branch->id'>$branch->name</option>";
-            }
-        } else {
-            echo "<option></option>";
-        }
+    public function actionGetCityProvince($zip_id) {
+        $location = Locations::findOne($zip_id);
+        echo Json::encode($location);
     }
 }

@@ -8,6 +8,7 @@ use backend\modules\settings\models\CompaniesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
 
 /**
  * CompaniesController implements the CRUD actions for Companies model.
@@ -65,6 +66,11 @@ class CompaniesController extends Controller
     public function actionCreate()
     {
         $model = new Companies();
+
+        if (Yii::$app->request->isAjax && $model->load($_POST)) {
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

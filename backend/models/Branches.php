@@ -13,12 +13,14 @@ use Yii;
  * @property string|null $created_date
  * @property int|null $id_company
  * @property int|null $new_column
+ * @property string|null $status
  *
  * @property Companies $company
  * @property Departments[] $departments
  */
 class Branches extends \yii\db\ActiveRecord
 {
+    public $companyName;
     /**
      * {@inheritdoc}
      */
@@ -33,8 +35,8 @@ class Branches extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address'], 'string'],
-            [['created_date'], 'safe'],
+            [['name', 'address', 'status'], 'string'],
+            [['created_date', 'companyName'], 'safe'],
             [['id_company', 'new_column'], 'integer'],
             [['id_company'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['id_company' => 'id']],
         ];
@@ -47,11 +49,12 @@ class Branches extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'company.name' => 'Company name',
-            'name' => 'Branch name',
+            'name' => 'Name',
             'address' => 'Address',
             'created_date' => 'Created Date',
-            //'new_column' => 'New Column',
+            'companyName' => 'Company',
+            'id_company' => 'Company',
+            'status' => 'Status',
         ];
     }
 

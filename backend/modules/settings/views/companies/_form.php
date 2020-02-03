@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="companies-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['enableAjaxValidation' => true]); ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 1]) ?>
 

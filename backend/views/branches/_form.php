@@ -16,12 +16,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'address')->textarea(['rows' => 1]) ?>
 
-    <?= $form->field($model, 'id_company')->widget(\kartik\select2\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\backend\models\Companies::find()->all(), 'id', 'name'),
-        'language' => 'en',
-        'options' => ['placeholder' => 'Select a company ...'],
-        'pluginOptions' => ['allowClear' => true],
-    ]) ?>
+    <?= $form->field($model, 'created_date')->textInput() ?>
+
+    <?= $form->field($model, 'id_company')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\backend\models\Branches::find()->all(), 'id', 'name'),
+        ['promt' => 'Select Company']
+    ) ?>
+
+    <?= $form->field($model, 'status')->dropDownList([ 'active' => 'Active', 'inactive' => 'Inactive', ], ['prompt' => '']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

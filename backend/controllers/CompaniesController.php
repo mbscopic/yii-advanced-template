@@ -67,25 +67,21 @@ class CompaniesController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->user->can('create-company')) {
-            $model = new Companies();
+        $model = new Companies();
 
-            if ($model->load(Yii::$app->request->post())) {
-                $imageName = $model->name;
-                $model->file = UploadedFile::getInstance($model, 'file');
-                $model->file->saveAs('uploads/'. $imageName . '.' . $model->file->extension);
-                $model->logo = 'uploads/'. $imageName . '.' . $model->file->extension;
-                $model->created_date = date('Y-m-d H:i:s');
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        } else {
-            throw new ForbiddenHttpException();
+        if ($model->load(Yii::$app->request->post())) {
+            $imageName = $model->name;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/'. $imageName . '.' . $model->file->extension);
+            $model->logo = 'uploads/'. $imageName . '.' . $model->file->extension;
+            $model->created_date = date('Y-m-d H:i:s');
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->id]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
