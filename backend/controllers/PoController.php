@@ -2,20 +2,21 @@
 
 namespace backend\controllers;
 
-use backend\models\Branches;
+use backend\models\Model;
+use backend\models\PoItem;
 use Yii;
-use backend\models\Companies;
-use backend\models\CompaniesSearch;
+use backend\models\Po;
+use backend\models\PoSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
+use yii\widgets\ActiveForm;
 
 /**
- * CompaniesController implements the CRUD actions for Companies model.
+ * PoController implements the CRUD actions for Po model.
  */
-class CompaniesController extends Controller
+class PoController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -33,12 +34,12 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Lists all Companies models.
+     * Lists all Po models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CompaniesSearch();
+        $searchModel = new PoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +49,7 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Displays a single Companies model.
+     * Displays a single Po model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,47 +62,56 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Creates a new Companies model.
+     * Creates a new Po model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
-     * @throws ForbiddenHttpException
      */
     public function actionCreate()
     {
-        $model = new Companies();
-        $branch = new Branches();
+        $model = new Po();
+        $modelPoItems = [new PoItem];
 
-        if ($model->load(Yii::$app->request->post()) && $branch->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            //Get uploaded file
-            $imageName = $model->name;
-            if (!empty($model->file)) {
-                $model->file = UploadedFile::getInstance($model, 'file');
-                $model->file->saveAs('/uploads' . $imageName . '.' . $model->file->extension);
-                $model->logo = '/uploads' . $imageName . '.' . $model->file->extension;
+            $modelPoItems = Model::createMultiple(PoItem::classname());
+            Model::loadMultiple($modelPoItems, Yii::$app->request->post());
+
+            // validate all models
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelPoItems) && $valid;
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        foreach ($modelPoItems as $modelPoItem) {
+                            $modelPoItem->po_id = $model->id;
+                            if (! ($flag = $modelPoItem->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
             }
-            $imageName = $model->name;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'. $imageName . '.' . $model->file->extension);
-            $model->logo = 'uploads/'. $imageName . '.' . $model->file->extension;
-            $model->created_date = date('Y-m-d H:i:s');
-            $model->save();
-
-            $branch->id_company = $model->id;
-            $branch->created_date = date('Y-m-d H:i:s');
-            $branch->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'branch' => $branch
+            'modelPoItems' => (empty($modelPoItems) ? [new PoItem] : $modelPoItems)
         ]);
     }
 
     /**
-     * Updates an existing Companies model.
+     * Updates an existing Po model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -121,7 +131,7 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Deletes an existing Companies model.
+     * Deletes an existing Po model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -135,15 +145,15 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Finds the Companies model based on its primary key value.
+     * Finds the Po model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Companies the loaded model
+     * @return Po the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Companies::findOne($id)) !== null) {
+        if (($model = Po::findOne($id)) !== null) {
             return $model;
         }
 

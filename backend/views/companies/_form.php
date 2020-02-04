@@ -22,6 +22,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'company_email')->textarea(['rows' => 1]) ?>
 
+    <?= $form->field($branch, 'name')->textarea(['rows' => 1]) ?>
+
+    <?= $form->field($branch, 'address')->textarea(['rows' => 1]) ?>
+
+    <?= $form->field($branch, 'created_date')->textInput() ?>
+
+    <?= $form->field($branch, 'id_company')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\backend\models\Branches::find()->all(), 'id', 'name'),
+        ['promt' => 'Select Company']
+    ) ?>
+
+    <?= $form->field($branch, 'status')->dropDownList([ 'active' => 'Active', 'inactive' => 'Inactive', ], ['prompt' => '']) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
