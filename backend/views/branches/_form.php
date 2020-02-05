@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="branches-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form']); ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 1]) ?>
 
@@ -32,3 +32,26 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+<?php
+$script = <<< JS
+$("#form").on("beforeSubmit", function(e) {
+  var form = $(this);
+  $.post(form.attr('action'), form.serialize()).done(function(result) {
+      console.log(result);
+    if (result == 1) {
+        $(form).trigger("reset");
+        $.pjax.reload({container: "#grid"});
+    } else {
+        $("#message").html(result.message);
+    }
+  }).fail(function() {
+    console.log("server error");
+  });
+  
+  return false;
+});
+
+JS;
+$this->registerJs($script);
+
+?>

@@ -4,14 +4,13 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Companies;
+use backend\models\Event;
 
 /**
- * CompaniesSearch represents the model behind the search form of `backend\models\Companies`.
+ * EventSearch represents the model behind the search form of `backend\models\Event`.
  */
-class CompaniesSearch extends Companies
+class EventSearch extends Event
 {
-    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -19,7 +18,7 @@ class CompaniesSearch extends Companies
     {
         return [
             [['id'], 'integer'],
-            [['name', 'email', 'globalSearch', 'address', 'created_date', 'company_email'], 'safe'],
+            [['title', 'description'], 'safe'],
         ];
     }
 
@@ -41,7 +40,7 @@ class CompaniesSearch extends Companies
      */
     public function search($params)
     {
-        $query = Companies::find();
+        $query = Event::find();
 
         // add conditions that should always apply here
 
@@ -58,15 +57,12 @@ class CompaniesSearch extends Companies
         }
 
         // grid filtering conditions
-        /*$query->andFilterWhere([
+        $query->andFilterWhere([
             'id' => $this->id,
-            'created_date' => $this->created_date,
-        ]);*/
+        ]);
 
-        $query->orFilterWhere(['like', 'name', $this->globalSearch])
-            ->orFilterWhere(['like', 'email', $this->globalSearch])
-            ->orFilterWhere(['like', 'address', $this->globalSearch])
-            ->orFilterWhere(['like', 'company_email', $this->globalSearch]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

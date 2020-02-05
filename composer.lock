@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5283ae7b04e1ceebc7223fe40a262a99",
+    "content-hash": "303d1399f270fa267221f29c16da7d0d",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -72,7 +72,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:twbs/bootstrap.git",
+                "url": "https://github.com/twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -110,6 +110,36 @@
             ]
         },
         {
+            "name": "bower-asset/fullcalendar",
+            "version": "v4.3.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:fullcalendar/fullcalendar.git",
+                "reference": "ac20b8a1acb79c50c9f5a108bb92d2f54575b700"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fullcalendar/fullcalendar/zipball/ac20b8a1acb79c50c9f5a108bb92d2f54575b700",
+                "reference": "ac20b8a1acb79c50c9f5a108bb92d2f54575b700"
+            },
+            "type": "bower-asset"
+        },
+        {
+            "name": "bower-asset/fullcalendar-scheduler",
+            "version": "v4.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fullcalendar/fullcalendar-scheduler.git",
+                "reference": "e9c7a8c92595c632be676fdf4b55051c0c2a937f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fullcalendar/fullcalendar-scheduler/zipball/e9c7a8c92595c632be676fdf4b55051c0c2a937f",
+                "reference": "e9c7a8c92595c632be676fdf4b55051c0c2a937f"
+            },
+            "type": "bower-asset"
+        },
+        {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
             "source": {
@@ -142,6 +172,27 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/15bc73803f76bc53b654b9fdbbbc096f56d7c03d",
                 "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/jquery-ui",
+            "version": "1.12.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:components/jqueryui.git",
+                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/44ecf3794cc56b65954cc19737234a3119d036cc",
+                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.6"
             },
             "type": "bower-asset",
             "license": [
@@ -619,6 +670,56 @@
                 "yii2"
             ],
             "time": "2020-02-04T11:59:36+00:00"
+        },
+        {
+            "name": "philippfrenzel/yii2fullcalendar",
+            "version": "4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/philippfrenzel/yii2fullcalendar.git",
+                "reference": "53c8b2f524c5f5d85bd30f6ed7ba34b563479782"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/philippfrenzel/yii2fullcalendar/zipball/53c8b2f524c5f5d85bd30f6ed7ba34b563479782",
+                "reference": "53c8b2f524c5f5d85bd30f6ed7ba34b563479782",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/fullcalendar": "^4.0.2@stable",
+                "bower-asset/fullcalendar-scheduler": "^4.0.2@stable",
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-jui": "*"
+            },
+            "require-dev": {
+                "codeception/codeception": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii2fullcalendar\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philipp Frenzel",
+                    "email": "philipp@frenzel.net",
+                    "homepage": "http://www.frenzel.net/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Yii2 fullcalendar Widgets",
+            "homepage": "http://www.frenzel.net/",
+            "keywords": [
+                "fullcalendar",
+                "widget",
+                "yii2"
+            ],
+            "time": "2019-04-17T13:42:59+00:00"
         },
         {
             "name": "select2/select2",
@@ -1390,6 +1491,52 @@
                 "yii2"
             ],
             "time": "2019-07-16T13:22:30+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-jui",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-jui.git",
+                "reference": "ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-jui/zipball/ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed",
+                "reference": "ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery-ui": "~1.12.1",
+                "yiisoft/yii2": "~2.0.4"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\jui\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Qiang Xue",
+                    "email": "qiang.xue@gmail.com"
+                }
+            ],
+            "description": "The Jquery UI extension for the Yii framework",
+            "keywords": [
+                "jQuery UI",
+                "yii2"
+            ],
+            "time": "2017-11-25T15:32:29+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",

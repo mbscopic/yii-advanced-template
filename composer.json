@@ -22,7 +22,9 @@
         "kartik-v/yii2-widget-select2": "@dev",
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-grid": "*",
-        "kartik-v/yii2-krajee-base": "*"
+        "kartik-v/yii2-krajee-base": "*",
+        "philippfrenzel/yii2fullcalendar": "^4.0",
+        "bower-asset/fullcalendar": "^4.3"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
