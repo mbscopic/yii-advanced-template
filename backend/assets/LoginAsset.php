@@ -1,21 +1,21 @@
 <?php
 
-namespace frontend\assets;
+namespace backend\assets;
 
 use yii\web\AssetBundle;
 
 /**
- * Main frontend application asset bundle.
+ * Main backend application asset bundle.
  */
-class AppAsset extends AssetBundle
+class LoginAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
-        'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'
     ];
     public $js = [
+        'js/main.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

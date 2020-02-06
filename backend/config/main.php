@@ -20,6 +20,9 @@ return [
         ]
     ],
     'components' => [
+        'mycomponent' => [
+            'class' => 'backend\components\MyComponent'
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],

@@ -70,6 +70,10 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        //$this->layout = 'loginLayout';
+        //$result = Yii::$app->mycomponent->currencyConverter('USD', 'LKR', 100);
+        //print_r($result);
+        //die();
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
