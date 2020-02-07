@@ -2,13 +2,18 @@
 
 namespace backend\controllers;
 
+use phpDocumentor\Reflection\Types\This;
 use Yii;
 use backend\models\Branches;
 use backend\models\BranchesSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use yii\web\UploadedFile;
+use yii\widgets\ActiveForm;
 
 /**
  * BranchesController implements the CRUD actions for Branches model.
@@ -59,12 +64,16 @@ class BranchesController extends Controller
     }
 
     /**
-     * @return string|\yii\web\Response
-     * @throws ForbiddenHttpException
+     * @return array|string
      */
-    public function actionCreate()
+    /*public function actionCreate()
     {
         $model = new Branches();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
 
         if ($model->load(Yii::$app->request->post())) {
             $model->created_date = date('Y-m-d H:i:s');
@@ -76,30 +85,40 @@ class BranchesController extends Controller
                 echo 0;
             }
         } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /*public function actionCreate()
-    {
-        if (Yii::$app->user->can('create-branch')) {
-            $model = new Branches();
-
-            if ($model->load(Yii::$app->request->post())) {
-                $model->created_date = date('Y-m-d H:i:s');
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
             return $this->render('create', [
                 'model' => $model,
             ]);
-        } else {
-            throw new ForbiddenHttpException();
         }
     }*/
+
+    public function actionCreate()
+    {
+        $model = new Branches();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created_date = date('Y-m-d H:i:s');
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+
+    }
+
+    public function actionValidation() {
+        $model = new Branches();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
 
     /**
      * Updates an existing Branches model.
@@ -162,5 +181,56 @@ class BranchesController extends Controller
         } else {
             echo "<option></option>";
         }
+    }
+
+    public function actionImportExcel() {
+        $inputFile = 'uploads'. DIRECTORY_SEPARATOR . 'branches.xlsx';
+
+        try {
+            $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
+            $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+            $file = \PHPExcel_IOFactory::load($inputFile);
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
+
+        $sheet = $file->getSheet(0);
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+
+        for ($row = 1; $row <= $highestRow; $row++){
+            $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, null, true, false);
+            if ($row == 1){
+                continue;
+            }
+
+            $branch = new Branches();
+            $id = $rowData[0][0];
+            $branch->name = $rowData[0][1];
+            $branch->address = $rowData[0][2];
+            $branch->id_company = $rowData[0][4];
+            $branch->status = $rowData[0][6];
+            $branch->save();
+
+            print_r($branch->getErrors());
+        }
+
+        die('ok');
+    }
+
+    public function actionUpload()
+    {
+        $fileName = 'file';
+        $uploadPath = 'uploads';
+
+        if (isset($_FILES[$fileName])) {
+            $file = UploadedFile::getInstanceByName($fileName);
+            if ($file->saveAs($uploadPath . '/' . $file->name)) {
+                echo Json::encode($file);
+            }
+        } else {
+            return $this->render('upload');
+        }
+        return false;
     }
 }

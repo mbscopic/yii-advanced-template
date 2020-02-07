@@ -7,7 +7,7 @@ use yii\web\AssetBundle;
 /**
  * Main backend application asset bundle.
  */
-class DashboardAsset extends AssetBundle
+class LoginAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';

@@ -17,7 +17,10 @@ return [
         ],
         'gridview' => [
             'class' => 'kartik\grid\Module',
-        ]
+        ],
+        'dynamikjs' => [
+            'class' => 'dastanaron\dropzone\DynamicJSModule'
+        ],
     ],
     'components' => [
         'mycomponent' => [

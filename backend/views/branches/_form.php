@@ -10,7 +10,11 @@ use yii\widgets\ActiveForm;
 
 <div class="branches-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'form']); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'form',
+        'enableAjaxValidation' => true,
+        'validationUrl' => \yii\helpers\Url::toRoute('branches/validation'),
+    ]); ?>
 
     <?= $form->field($model, 'name')->textarea(['rows' => 1]) ?>
 

@@ -29,7 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
         \yii\bootstrap\Modal::end();
     ?>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php
+    $gridColumns = [
+        ['class' => 'yii\grid\SerialColumn'],
+        'id',
+        'name',
+        'status',
+        ['class' => 'yii\grid\ActionColumn'],
+    ];
+    echo \kartik\export\ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns
+    ]);
+    ?>
 
     <?php \yii\widgets\Pjax::begin(['id' => 'grid']); ?>
     <?= GridView::widget([

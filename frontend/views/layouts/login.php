@@ -4,14 +4,14 @@
 /* @var $content string */
 
 use frontend\assets\AppAsset;
-use frontend\assets\DashboardAsset;
+use frontend\assets\LoginAsset;
 use yii\helpers\Html;
 /*use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;*/
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 
-AppAsset::register($this);
+LoginAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -91,13 +91,6 @@ AppAsset::register($this);
     </div>
 </div>
 <!-- /.login-box -->
-
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
 
 </body>
 <?php $this->endBody() ?>

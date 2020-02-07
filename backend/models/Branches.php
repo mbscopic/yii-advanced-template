@@ -38,6 +38,17 @@ class Branches extends \yii\db\ActiveRecord
             [['name', 'address', 'status'], 'string'],
             [['created_date', 'companyName'], 'safe'],
             [['id_company', 'new_column'], 'integer'],
+            ['name', 'unique'],
+            ['status', 'required', 'when' => function($model) {
+                return (!empty($model->address)) ? true : false;
+            }, 'whenClient' => "function() {
+                    if ($('#branches-address').val() === undefined) {
+                        false;
+                    } else {
+                        true;
+                    }
+                }"
+            ],
             [['id_company'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['id_company' => 'id']],
         ];
     }
