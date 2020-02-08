@@ -1,7 +1,16 @@
 $(function () {
+    'use strict';
+
     $("#modalButton").click(function () {
         $("#modal").modal("show")
             .find("#modalContent")
             .load($(this).attr("value"));
+    });
+
+    $(".language").click(function () {
+        var lang = $(this).attr('id');
+        $.post('index.php?r=site/language', {'lang' : lang}, function (data) {
+            location.reload();
+        });
     });
 });

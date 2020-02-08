@@ -23,6 +23,19 @@ return [
         ],
     ],
     'components' => [
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' =>'error.php'
+                    ],
+                ],
+            ],
+        ],
         'mycomponent' => [
             'class' => 'backend\components\MyComponent'
         ],
@@ -66,6 +79,9 @@ return [
             ],
         ],
         */
+    ],
+    'as beforeRequest' => [
+        'class' => 'backend\components\CheckIfLoggedIn'
     ],
     'params' => $params,
 ];

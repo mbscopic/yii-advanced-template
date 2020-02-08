@@ -8,6 +8,7 @@ use backend\models\Branches;
 use backend\models\BranchesSearch;
 use yii\helpers\Json;
 use yii\web\Controller;
+use yii\web\Cookie;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -232,5 +233,20 @@ class BranchesController extends Controller
             return $this->render('upload');
         }
         return false;
+    }
+
+    public function actionSetCookie() {
+        $cookie = new Cookie([
+            'name' => 'test',
+            'value' => 'Test cookie value'
+        ]);
+
+        Yii::$app->getResponse()->getCookies()->add($cookie);
+    }
+
+    public function actionGetCookie() {
+        if (Yii::$app->getRequest()->getCookies()->has('test')) {
+            print_r(Yii::$app->getRequest()->getCookies()->getValue('test'));
+        }
     }
 }

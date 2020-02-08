@@ -180,7 +180,11 @@ DashboardAsset::register($this);
     ]);
     NavBar::end();
     */?>
-
+<?php
+    foreach (Yii::$app->params['languages'] as $key => $value) {
+        echo "<span class='language' id='" . $key . "'>" . $value . " | " . "</span>";
+    }
+?>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
